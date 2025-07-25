@@ -1,0 +1,5 @@
+cd backend
+mvn install
+
+docker-compose up
+
