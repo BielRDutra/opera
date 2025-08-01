@@ -9,28 +9,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.operalatam.api.model.Perfil;
-import com.operalatam.api.repository.PerfilRepository;
+import com.operalatam.api.model.Bagagem;
+import com.operalatam.api.repository.BagagemRepository;
 
 
     @RestController
-    @RequestMapping("/funcionarios")
-    public class PerfilController {
+    @RequestMapping("/bagagens")
+    public class BagagemController {
 
         @Autowired
-        private PerfilRepository perfilRepository;
+        private BagagemRepository bagagemRepository;
 
         @PostMapping("/{nome}")
-        public Perfil criarPerfil(@RequestBody Perfil perfil) {
-            return perfilRepository.save(perfil);
+        public Bagagem criarBagagem(@RequestBody Bagagem bagagem) {
+            return bagagemRepository.save(bagagem);
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deletarPerfil(@PathVariable Long id) {
-            if (!perfilRepository.existsById(id)) {
+        public ResponseEntity<Void> deletarBagagem(@PathVariable Long id) {
+            if (!bagagemRepository.existsById(id)) {
                 return ResponseEntity.notFound().build();
             }
-            perfilRepository.deleteById(id);
+            bagagemRepository.deleteById(id);
             return ResponseEntity.noContent().build();
     }
 }
+

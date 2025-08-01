@@ -10,33 +10,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.operalatam.api.model.Funcionario;
-import com.operalatam.api.repository.FuncionarioRepository;
+import com.operalatam.api.model.Servico;
+import com.operalatam.api.repository.ServicoRepository;
 
-    @RestController
-    @RequestMapping("/funcionarios")
-    public class FuncionarioController {
 
+@RestController
+@RequestMapping("/servicos")
+public class ServicoController {
+        
         @Autowired
-        private FuncionarioRepository funcionarioRepository;
+        private ServicoRepository servicoRepository;
 
         @PostMapping("/{nome}")
-        public Funcionario criarFuncionario(@RequestBody Funcionario funcionario) {
-            return funcionarioRepository.save(funcionario);
+        public Servico criarServico(@RequestBody Servico servico) {
+            return servicoRepository.save(servico);
         }
+
         @GetMapping("/{id}")
-        public ResponseEntity<Funcionario> obterFuncionario(@PathVariable Long id) {
-            return funcionarioRepository.findById(id)
-                .map(funcionario -> ResponseEntity.ok(funcionario))
+        public ResponseEntity<Servico> obterServico(@PathVariable Long id) {
+            return servicoRepository.findById(id)
+                .map(servico-> ResponseEntity.ok(servico))
                 .orElse(ResponseEntity.notFound().build());
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deletarFuncionario(@PathVariable Long id) {
-            if (!funcionarioRepository.existsById(id)) {
+        public ResponseEntity<Void> deletarServico(@PathVariable Long id) {
+            if (!servicoRepository.existsById(id)) {
                 return ResponseEntity.notFound().build();
             }
-            funcionarioRepository.deleteById(id);
+            servicoRepository.deleteById(id);
             return ResponseEntity.noContent().build();
     }
 }

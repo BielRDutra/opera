@@ -10,33 +10,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.operalatam.api.model.Funcionario;
-import com.operalatam.api.repository.FuncionarioRepository;
+import com.operalatam.api.model.Aeronave;
+import com.operalatam.api.repository.AeronaveRepository;
 
-    @RestController
-    @RequestMapping("/funcionarios")
-    public class FuncionarioController {
-
+@RestController
+@RequestMapping("/aeronaves")
+    public class AeronaveController {
+        
         @Autowired
-        private FuncionarioRepository funcionarioRepository;
+        private AeronaveRepository aeronaveRepository;
 
         @PostMapping("/{nome}")
-        public Funcionario criarFuncionario(@RequestBody Funcionario funcionario) {
-            return funcionarioRepository.save(funcionario);
+        public Aeronave criarAeronave(@RequestBody Aeronave aeronave) {
+            return aeronaveRepository.save(aeronave);
         }
+
         @GetMapping("/{id}")
-        public ResponseEntity<Funcionario> obterFuncionario(@PathVariable Long id) {
-            return funcionarioRepository.findById(id)
-                .map(funcionario -> ResponseEntity.ok(funcionario))
+        public ResponseEntity<Aeronave> obterAeronave(@PathVariable Long id) {
+            return aeronaveRepository.findById(id)
+                .map(aeronave -> ResponseEntity.ok(aeronave))
                 .orElse(ResponseEntity.notFound().build());
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deletarFuncionario(@PathVariable Long id) {
-            if (!funcionarioRepository.existsById(id)) {
+
+        public ResponseEntity<Void> deletarAeronave(@PathVariable Long id) {
+            if (!aeronaveRepository.existsById(id)) {
                 return ResponseEntity.notFound().build();
             }
-            funcionarioRepository.deleteById(id);
+            aeronaveRepository.deleteById(id);
             return ResponseEntity.noContent().build();
     }
 }
+

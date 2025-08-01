@@ -15,7 +15,7 @@ public class GeneroController {
     @Autowired
     private GeneroRepository generoRepository;
 
-    @PostMapping
+    @PostMapping("/{nome}")
     public ResponseEntity<Genero> criarGenero(@RequestBody Genero genero) {
         Genero salvo = generoRepository.save(genero);
         return ResponseEntity.ok(salvo);

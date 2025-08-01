@@ -10,33 +10,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.operalatam.api.model.Funcionario;
-import com.operalatam.api.repository.FuncionarioRepository;
+import com.operalatam.api.model.Box;
+import com.operalatam.api.repository.BoxRepository;
 
-    @RestController
-    @RequestMapping("/funcionarios")
-    public class FuncionarioController {
-
+@RestController
+@RequestMapping("/boxes")
+public class BoxController {
+        
         @Autowired
-        private FuncionarioRepository funcionarioRepository;
+        private BoxRepository boxRepository;
 
         @PostMapping("/{nome}")
-        public Funcionario criarFuncionario(@RequestBody Funcionario funcionario) {
-            return funcionarioRepository.save(funcionario);
+        public Box criarBox(@RequestBody Box box) {
+            return boxRepository.save(box);
         }
+
         @GetMapping("/{id}")
-        public ResponseEntity<Funcionario> obterFuncionario(@PathVariable Long id) {
-            return funcionarioRepository.findById(id)
-                .map(funcionario -> ResponseEntity.ok(funcionario))
+        public ResponseEntity<Box> obterBox(@PathVariable Long id) {
+            return boxRepository.findById(id)
+                .map(box -> ResponseEntity.ok(box))
                 .orElse(ResponseEntity.notFound().build());
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deletarFuncionario(@PathVariable Long id) {
-            if (!funcionarioRepository.existsById(id)) {
+        public ResponseEntity<Void> deletarBox(@PathVariable Long id) {
+            if (!boxRepository.existsById(id)) {
                 return ResponseEntity.notFound().build();
             }
-            funcionarioRepository.deleteById(id);
+            boxRepository.deleteById(id);
             return ResponseEntity.noContent().build();
     }
 }
+

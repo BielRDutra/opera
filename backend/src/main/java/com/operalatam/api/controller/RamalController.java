@@ -10,33 +10,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.operalatam.api.model.Funcionario;
-import com.operalatam.api.repository.FuncionarioRepository;
+import com.operalatam.api.model.Ramal;
+import com.operalatam.api.repository.RamalRepository;
 
-    @RestController
-    @RequestMapping("/funcionarios")
-    public class FuncionarioController {
 
+
+
+@RestController
+@RequestMapping("/ramais")
+    public class RamalController {
+        
         @Autowired
-        private FuncionarioRepository funcionarioRepository;
+        private RamalRepository ramalRepository;
 
         @PostMapping("/{nome}")
-        public Funcionario criarFuncionario(@RequestBody Funcionario funcionario) {
-            return funcionarioRepository.save(funcionario);
+        public Ramal criarRamal(@RequestBody Ramal ramal) {
+            return ramalRepository.save(ramal);
         }
+
         @GetMapping("/{id}")
-        public ResponseEntity<Funcionario> obterFuncionario(@PathVariable Long id) {
-            return funcionarioRepository.findById(id)
-                .map(funcionario -> ResponseEntity.ok(funcionario))
+        public ResponseEntity<Ramal> obterRamal(@PathVariable Long id) {
+            return ramalRepository.findById(id)
+                .map(ramal -> ResponseEntity.ok(ramal))
                 .orElse(ResponseEntity.notFound().build());
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deletarFuncionario(@PathVariable Long id) {
-            if (!funcionarioRepository.existsById(id)) {
+        public ResponseEntity<Void> deletarRamal(@PathVariable Long id) {
+            if (!ramalRepository.existsById(id)) {
                 return ResponseEntity.notFound().build();
             }
-            funcionarioRepository.deleteById(id);
+            ramalRepository.deleteById(id);
             return ResponseEntity.noContent().build();
     }
 }

@@ -10,33 +10,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.operalatam.api.model.Funcionario;
-import com.operalatam.api.repository.FuncionarioRepository;
+import com.operalatam.api.model.Configuracao;
+import com.operalatam.api.repository.ConfiguracaoRepository;
 
-    @RestController
-    @RequestMapping("/funcionarios")
-    public class FuncionarioController {
-
+@RestController
+@RequestMapping("/configuracoes")
+public class ConfiguracaoController {
+        
         @Autowired
-        private FuncionarioRepository funcionarioRepository;
+        private ConfiguracaoRepository configuracaoRepository;
 
         @PostMapping("/{nome}")
-        public Funcionario criarFuncionario(@RequestBody Funcionario funcionario) {
-            return funcionarioRepository.save(funcionario);
+        public Configuracao criarConfiguracao(@RequestBody Configuracao configuracao) {
+            return configuracaoRepository.save(configuracao);
         }
+
         @GetMapping("/{id}")
-        public ResponseEntity<Funcionario> obterFuncionario(@PathVariable Long id) {
-            return funcionarioRepository.findById(id)
-                .map(funcionario -> ResponseEntity.ok(funcionario))
+        public ResponseEntity<Configuracao> obterConfiguracao(@PathVariable Long id) {
+            return configuracaoRepository.findById(id)
+                .map(configuracao -> ResponseEntity.ok(configuracao))
                 .orElse(ResponseEntity.notFound().build());
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deletarFuncionario(@PathVariable Long id) {
-            if (!funcionarioRepository.existsById(id)) {
+        public ResponseEntity<Void> deletarConfiguracao(@PathVariable Long id) {
+            if (!configuracaoRepository.existsById(id)) {
                 return ResponseEntity.notFound().build();
             }
-            funcionarioRepository.deleteById(id);
+            configuracaoRepository.deleteById(id);
             return ResponseEntity.noContent().build();
     }
 }

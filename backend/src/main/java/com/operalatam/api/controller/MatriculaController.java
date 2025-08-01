@@ -10,33 +10,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.operalatam.api.model.Funcionario;
-import com.operalatam.api.repository.FuncionarioRepository;
+import com.operalatam.api.model.Matricula;
+import com.operalatam.api.repository.MatriculaRepository;
 
-    @RestController
-    @RequestMapping("/funcionarios")
-    public class FuncionarioController {
 
+@RestController
+@RequestMapping("/matriculas")
+public class MatriculaController {
+        
         @Autowired
-        private FuncionarioRepository funcionarioRepository;
+        private MatriculaRepository matriculaRepository;
 
         @PostMapping("/{nome}")
-        public Funcionario criarFuncionario(@RequestBody Funcionario funcionario) {
-            return funcionarioRepository.save(funcionario);
+        public Matricula criarMatricula(@RequestBody Matricula matricula) {
+            return matriculaRepository.save(matricula);
         }
+
         @GetMapping("/{id}")
-        public ResponseEntity<Funcionario> obterFuncionario(@PathVariable Long id) {
-            return funcionarioRepository.findById(id)
-                .map(funcionario -> ResponseEntity.ok(funcionario))
+        public ResponseEntity<Matricula> obterMatricula(@PathVariable Long id) {
+            return matriculaRepository.findById(id)
+                .map(matricula -> ResponseEntity.ok(matricula))
                 .orElse(ResponseEntity.notFound().build());
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deletarFuncionario(@PathVariable Long id) {
-            if (!funcionarioRepository.existsById(id)) {
+        public ResponseEntity<Void> deletarMatricula(@PathVariable Long id) {
+            if (!matriculaRepository.existsById(id)) {
                 return ResponseEntity.notFound().build();
             }
-            funcionarioRepository.deleteById(id);
+            matriculaRepository.deleteById(id);
             return ResponseEntity.noContent().build();
     }
 }

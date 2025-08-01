@@ -10,33 +10,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.operalatam.api.model.Funcionario;
-import com.operalatam.api.repository.FuncionarioRepository;
+import com.operalatam.api.model.Portao;
+import com.operalatam.api.repository.PortaoRepository;
 
-    @RestController
-    @RequestMapping("/funcionarios")
-    public class FuncionarioController {
-
+@RestController
+@RequestMapping("/portoes")
+public class PortaoController {
+        
         @Autowired
-        private FuncionarioRepository funcionarioRepository;
+        private PortaoRepository portaoRepository;
 
         @PostMapping("/{nome}")
-        public Funcionario criarFuncionario(@RequestBody Funcionario funcionario) {
-            return funcionarioRepository.save(funcionario);
+        public Portao criarPortao(@RequestBody Portao portao) {
+            return portaoRepository.save(portao);
         }
+
         @GetMapping("/{id}")
-        public ResponseEntity<Funcionario> obterFuncionario(@PathVariable Long id) {
-            return funcionarioRepository.findById(id)
-                .map(funcionario -> ResponseEntity.ok(funcionario))
+        public ResponseEntity<Portao> obterPortao(@PathVariable Long id) {
+            return portaoRepository.findById(id)
+                .map(portao -> ResponseEntity.ok(portao))
                 .orElse(ResponseEntity.notFound().build());
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deletarFuncionario(@PathVariable Long id) {
-            if (!funcionarioRepository.existsById(id)) {
+        public ResponseEntity<Void> deletarPortao(@PathVariable Long id) {
+            if (!portaoRepository.existsById(id)) {
                 return ResponseEntity.notFound().build();
             }
-            funcionarioRepository.deleteById(id);
+            portaoRepository.deleteById(id);
             return ResponseEntity.noContent().build();
     }
 }
