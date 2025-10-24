@@ -20,7 +20,7 @@ import com.operalatam.api.repository.FuncionarioRepository;
         @Autowired
         private FuncionarioRepository funcionarioRepository;
 
-        @PostMapping("/{nome}")
+        @PostMapping
         public Funcionario criarFuncionario(@RequestBody Funcionario funcionario) {
             return funcionarioRepository.save(funcionario);
         }

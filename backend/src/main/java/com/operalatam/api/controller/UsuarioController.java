@@ -14,13 +14,13 @@ import com.operalatam.api.repository.UsuarioRepository;
 
 
     @RestController
-    @RequestMapping("/funcionarios")
+    @RequestMapping("/usuarios")
     public class UsuarioController {
 
         @Autowired
         private UsuarioRepository usuarioRepository;
 
-        @PostMapping("/{nome}")
+        @PostMapping
         public Usuario criarUsuario(@RequestBody Usuario usuario) {
             return usuarioRepository.save(usuario);
         }

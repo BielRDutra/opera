@@ -20,7 +20,7 @@ import com.operalatam.api.repository.BagagemRepository;
         @Autowired
         private BagagemRepository bagagemRepository;
 
-        @PostMapping("/{nome}")
+        @PostMapping
         public Bagagem criarBagagem(@RequestBody Bagagem bagagem) {
             return bagagemRepository.save(bagagem);
         }

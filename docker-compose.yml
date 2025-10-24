@@ -6,7 +6,8 @@ services:
     container_name: opera_db
     restart: always
     ports:
-      - "3307:3307"
+      # map host 3307 to container 3306 (MySQL default)
+      - "3307:3306"
     environment:
       MYSQL_DATABASE: opera_latam
       MYSQL_ROOT_PASSWORD: root

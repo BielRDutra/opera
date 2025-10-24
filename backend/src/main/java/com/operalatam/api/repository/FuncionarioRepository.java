@@ -9,5 +9,5 @@ import com.operalatam.api.model.Funcionario;
 
 @Repository
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
-    Optional<Funcionario> findByNome(String nome);
+    Optional<Funcionario> findByBp(Integer bp);
 }

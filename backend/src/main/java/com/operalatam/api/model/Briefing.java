@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
@@ -29,6 +31,10 @@ public class Briefing implements Serializable {
 
     @Column(name = "aeronave_id", nullable = false)
     private Long aeronaveId;
+
+    @ManyToOne
+    @JoinColumn(name = "aeronave_id", insertable = false, updatable = false)
+    private Aeronave aeronave;
 
     @Column(name = "portao_id", nullable = false)
     private Long portaoId;
@@ -80,6 +86,14 @@ public class Briefing implements Serializable {
 
     public void setAeronaveId(Long aeronaveId) {
         this.aeronaveId = aeronaveId;
+    }
+
+    public Aeronave getAeronave() {
+        return aeronave;
+    }
+
+    public void setAeronave(Aeronave aeronave) {
+        this.aeronave = aeronave;
     }
 
     public Long getPortaoId() {

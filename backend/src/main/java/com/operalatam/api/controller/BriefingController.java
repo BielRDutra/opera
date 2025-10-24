@@ -20,7 +20,7 @@ import com.operalatam.api.repository.BriefingRepository;
         @Autowired
         private BriefingRepository briefingRepository;
 
-        @PostMapping("/{nome}")
+        @PostMapping
         public Briefing criarBriefing(@RequestBody Briefing briefing) {
             return briefingRepository.save(briefing);
         }

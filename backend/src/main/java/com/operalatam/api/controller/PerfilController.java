@@ -14,13 +14,13 @@ import com.operalatam.api.repository.PerfilRepository;
 
 
     @RestController
-    @RequestMapping("/funcionarios")
+    @RequestMapping("/perfis")
     public class PerfilController {
 
         @Autowired
         private PerfilRepository perfilRepository;
 
-        @PostMapping("/{nome}")
+        @PostMapping
         public Perfil criarPerfil(@RequestBody Perfil perfil) {
             return perfilRepository.save(perfil);
         }

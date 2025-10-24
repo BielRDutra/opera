@@ -9,5 +9,5 @@ import com.operalatam.api.model.Bagagem;
 
 @Repository
 public interface BagagemRepository extends JpaRepository<Bagagem, Long> {
-    Optional<Bagagem> findByNome(String nome);
+    Optional<Bagagem> findByEtiqueta(Long etiqueta);
 }
