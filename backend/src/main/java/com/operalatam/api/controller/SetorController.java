@@ -22,7 +22,7 @@ public class SetorController {
     }
 
     @PostMapping
-    public Setor createSetor(@RequestBody InputCreateSetorDTO setorDto) {
+    public String createSetor(@RequestBody InputCreateSetorDTO setorDto) {
         // Map DTO to entity (keeps controller simple; service expects entity)
         Setor setor = new Setor();
         setor.setNome(setorDto.getNome());

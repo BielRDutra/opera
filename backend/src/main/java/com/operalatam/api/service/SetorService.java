@@ -15,8 +15,7 @@ public class SetorService {
         return "Setor deletado";
     }
 
-    public Setor createSetor(String nome) {
-        // TODO Auto-generated method stub
+    public Setor createSetor(String nome) { 
         throw new UnsupportedOperationException("Unimplemented method 'createSetor'");
     }
 
