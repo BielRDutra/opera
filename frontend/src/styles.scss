@@ -1,0 +1,61 @@
+// Theme variables and mixins (SCSS)
+$primary-blue: #0d6efd;
+$accent-blue: #6610f2;
+$bg-blue: #f8f9fa;
+$text-blue: #212529;
+
+$primary-red: #c82333;
+$accent-red: #e83e8c;
+$bg-red: #fff5f6;
+$text-red: #2b2b2b;
+
+:root {
+  --primary: #{$primary-blue};
+  --accent: #{$accent-blue};
+  --bg: #{$bg-blue};
+  --text: #{$text-blue};
+}
+
+.theme-blue {
+  --primary: #{$primary-blue};
+  --accent: #{$accent-blue};
+  --bg: #{$bg-blue};
+  --text: #{$text-blue};
+}
+
+.theme-red {
+  --primary: #{$primary-red};
+  --accent: #{$accent-red};
+  --bg: #{$bg-red};
+  --text: #{$text-red};
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app-header {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: white;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container {
+  padding: 24px;
+}
+
+.theme-toggle {
+  margin-left: 12px;
+  padding: 8px 12px;
+  border: none;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
