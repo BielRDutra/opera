@@ -1,5 +1,77 @@
-cd backend
-mvn install
+# Opera — Instruções de execução
 
-docker-compose up
+Este README descreve como executar o backend e o frontend localmente, além de como rodar os testes unitários.
 
+## Pré-requisitos
+
+- Java JDK 11 ou 17 (verifique com `java -version`)
+- Node.js (recomenda-se Node 16+)
+- npm (verifique com `npm -v`)
+
+## Backend (Spring Boot)
+
+Abra um terminal e execute:
+
+```cmd
+cd c:\Code\Projetos\opera\backend
+mvnw.cmd spring-boot:run
+```
+
+O backend iniciará na porta configurada (por padrão `8080`).
+
+## Frontend (Angular)
+
+1. Instale dependências:
+
+```cmd
+cd c:\Code\Projetos\opera\frontend
+npm install
+```
+
+2. Inicie o servidor de desenvolvimento:
+
+```cmd
+npm start
+# abre http://localhost:4200
+```
+
+Se o PowerShell bloquear a execução de `npm` (`npm.ps1`), prefira abrir um terminal `cmd` ou ajuste a política de execução temporariamente:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+```
+
+## Rodar testes unitários
+
+- Testes interativos (abre o Chrome):
+
+```cmd
+cd c:\Code\Projetos\opera\frontend
+npm test
+```
+
+- Testes headless (usa Chromium do Puppeteer):
+
+```cmd
+cd c:\Code\Projetos\opera\frontend
+npm install
+node scripts/run-tests-ci.js
+```
+
+Observações:
+- Se o Chrome Headless desconectar em ambientes sem UI, use o script `scripts/run-tests-ci.js` que utiliza o Chromium fornecido pelo `puppeteer`.
+- Se `mvnw.cmd` falhar, verifique a variável `JAVA_HOME` e a instalação do JDK.
+
+## Troubleshooting rápido
+
+- Para encerrar processos Node travados:
+
+```cmd
+taskkill /F /IM node.exe
+```
+
+- Para ver logs do frontend, examine o terminal onde `npm start` está rodando.
+
+---
+
+Se quiser que eu adicione instruções adicionais (ex.: comandos para build de produção, variáveis de ambiente, ou configuração de Docker), diga o que prefere que eu inclua.
