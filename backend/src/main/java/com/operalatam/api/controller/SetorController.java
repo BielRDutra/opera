@@ -1,66 +1,84 @@
-package com.operalatam.api.service;
+package com.operalatam.api.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.operalatam.api.dto.InputCreateSetorDTO;
+import com.operalatam.api.dto.ListSetoresRequestDTO;
+import com.operalatam.api.dto.SetorResponseDTO;
 import com.operalatam.api.model.Setor;
-import com.operalatam.api.repository.SetorRepository;
+import com.operalatam.api.service.SetorService;
 
-@Service
-public class SetorService {
+@RestController
+@RequestMapping("/setores")
+public class SetorController {
 
-    private final SetorRepository setorRepository;
+    private final SetorService setorService;
 
-    public SetorService(SetorRepository setorRepository) {
-        this.setorRepository = setorRepository;
+    public SetorController(SetorService setorService) {
+        this.setorService = setorService;
     }
 
-    public Page<Setor> listSetores(String nomeFilter, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        if (nomeFilter == null || nomeFilter.isBlank()) {
-            return setorRepository.findAll(pageable);
+    @PostMapping
+    public org.springframework.http.ResponseEntity<?> createSetor(@RequestBody InputCreateSetorDTO setorDto) {
+        String nome = setorDto.getNome();
+        if (nome == null || nome.isBlank()) {
+            return org.springframework.http.ResponseEntity.badRequest()
+                    .body(new com.operalatam.api.dto.SetorResultDTO(false, "Nome do setor é obrigatório"));
         }
-        return setorRepository.findByNomeContainingIgnoreCase(nomeFilter, pageable);
-    }
 
-    public String getSetor(String nome) {
-        return setorRepository.findByNome(nome).map(Setor::getNome).orElse(null);
-    }
-
-    public boolean existsByNome(String nome) {
-        return setorRepository.findByNome(nome).isPresent();
-    }
-
-    public Setor createSetorEntity(Setor setor) {
-        return setorRepository.save(setor);
-    }
-
-    public String deleteSetor(Long id) {
-        setorRepository.deleteById(id);
-        return "Setor deletado";
-    }
-
-    public Setor createSetor(String nome) {
-        Setor s = new Setor();
-        s.setNome(nome);
-        return setorRepository.save(s);
-    }
-
-    public List<Setor> listAll() {
-        return setorRepository.findAll();
-    }
-
-    public List<Setor> listAllFiltered(String nomeFilter) {
-        if (nomeFilter == null || nomeFilter.isBlank()) {
-            return setorRepository.findAll();
+        // check duplicate
+        if (setorService.existsByNome(nome)) {
+            return org.springframework.http.ResponseEntity.status(409)
+                    .body(new com.operalatam.api.dto.SetorResultDTO(false, "Setor com esse nome já existe"));
         }
-        // reuse repository method with large pageable to get all matching
-        return setorRepository.findByNomeContainingIgnoreCase(nomeFilter, PageRequest.of(0, Integer.MAX_VALUE)).getContent();
+
+        Setor setor = new Setor();
+        setor.setNome(nome);
+        try {
+            setorService.createSetorEntity(setor);
+            return org.springframework.http.ResponseEntity.ok(new com.operalatam.api.dto.SetorResultDTO(true, "Setor criado com sucesso"));
+        } catch (Exception ex) {
+            return org.springframework.http.ResponseEntity.status(500)
+                    .body(new com.operalatam.api.dto.SetorResultDTO(false, "Erro ao salvar setor: " + ex.getMessage()));
+        }
     }
 
+    @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public org.springframework.http.ResponseEntity<?> listSetores(@ModelAttribute ListSetoresRequestDTO req) {
+        Integer page = req.getPage();
+        Integer size = req.getSize();
+        String nome = req.getNome();
+
+        if (page == null && size == null) {
+            // return full list (nome is optional)
+            List<Setor> all = setorService.listAllFiltered(nome);
+            List<SetorResponseDTO> dto = all.stream()
+                    .map(s -> new SetorResponseDTO(s.getId(), s.getNome()))
+                    .collect(Collectors.toList());
+            return org.springframework.http.ResponseEntity.ok(dto);
+        }
+
+        int p = page == null ? 0 : page;
+        int s = size == null ? 10 : size;
+        Page<Setor> pg = setorService.listSetores(nome, p, s);
+        Page<SetorResponseDTO> dtoPage = pg.map(sx -> new SetorResponseDTO(sx.getId(), sx.getNome()));
+        return org.springframework.http.ResponseEntity.ok(dtoPage);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteSetor(@PathVariable Long id) {
+        setorService.deleteSetor(id);
+    }
 }
-
