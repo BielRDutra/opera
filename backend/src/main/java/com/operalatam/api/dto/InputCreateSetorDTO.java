@@ -1,15 +1,6 @@
 package com.operalatam.api.dto;
 
-import java.io.Serializable;
-
-/**
- * DTO de entrada para criação/atualização de Setor.
- * Contém apenas os campos recebidos via API (sem id).
- */
-public class InputCreateSetorDTO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class InputCreateSetorDTO {
     private String nome;
 
     public InputCreateSetorDTO() {

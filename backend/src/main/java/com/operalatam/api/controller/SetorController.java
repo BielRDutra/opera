@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.operalatam.api.dto.InputCreateSetorDTO;
 import com.operalatam.api.dto.ListSetoresRequestDTO;
 import com.operalatam.api.dto.SetorResponseDTO;
+import com.operalatam.api.dto.SetorResultDTO;
 import com.operalatam.api.model.Setor;
 import com.operalatam.api.service.SetorService;
 
@@ -31,27 +33,27 @@ public class SetorController {
     }
 
     @PostMapping
-    public org.springframework.http.ResponseEntity<?> createSetor(@RequestBody InputCreateSetorDTO setorDto) {
+    public ResponseEntity<?> createSetor(@RequestBody InputCreateSetorDTO setorDto) {
         String nome = setorDto.getNome();
         if (nome == null || nome.isBlank()) {
-            return org.springframework.http.ResponseEntity.badRequest()
-                    .body(new com.operalatam.api.dto.SetorResultDTO(false, "Nome do setor é obrigatório"));
+            return ResponseEntity.badRequest()
+                    .body(new SetorResultDTO(false, "Nome deve ser informado"));
         }
 
         // check duplicate
         if (setorService.existsByNome(nome)) {
-            return org.springframework.http.ResponseEntity.status(409)
-                    .body(new com.operalatam.api.dto.SetorResultDTO(false, "Setor com esse nome já existe"));
+            return ResponseEntity.status(409)
+                    .body(new SetorResultDTO(false, "Setor com esse nome já existe"));
         }
 
         Setor setor = new Setor();
         setor.setNome(nome);
         try {
             setorService.createSetorEntity(setor);
-            return org.springframework.http.ResponseEntity.ok(new com.operalatam.api.dto.SetorResultDTO(true, "Setor criado com sucesso"));
+            return ResponseEntity.ok(new SetorResultDTO(true, "Setor criado com sucesso"));
         } catch (Exception ex) {
-            return org.springframework.http.ResponseEntity.status(500)
-                    .body(new com.operalatam.api.dto.SetorResultDTO(false, "Erro ao salvar setor: " + ex.getMessage()));
+            return ResponseEntity.status(500)
+                    .body(new SetorResultDTO(false, "Erro ao salvar setor: " + ex.getMessage()));
         }
     }
 
