@@ -1,1 +1,0 @@
-(self.webpackChunkopera_frontend=self.webpackChunkopera_frontend||[]).push([[429],{435:()=>{}},e=>{e(e.s=435)}]);
