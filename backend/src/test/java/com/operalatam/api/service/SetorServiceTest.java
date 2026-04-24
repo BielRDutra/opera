@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.any;
@@ -33,10 +32,6 @@ class SetorServiceTest {
 
     private SetorService setorService;
 
-    @BeforeEach
-    void setUp() {
-        setorService = new SetorService(setorRepository);
-    }
 
     @Test
     void listSetores_WithoutFilter_ReturnsPagedResults() {
